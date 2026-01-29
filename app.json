@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "pokedex-app",
+    "name": "Pokedex",
     "slug": "pokedex-app",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -12,6 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "scheme": "pokedex",
     "ios": {
       "supportsTablet": true
     },
@@ -25,6 +26,7 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": ["expo-router"]
   }
 }
