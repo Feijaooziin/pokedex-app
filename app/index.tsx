@@ -32,16 +32,20 @@ export default function Home() {
       <SearchBar value={search} onChange={setSearch} />
 
       <FlatList
-        data={filtered}
+        data={pokemons}
         numColumns={2}
-        columnWrapperStyle={{ justifyContent: "space-between" }}
         keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
-          <PokemonCard
-            name={item.name}
-            onPress={() => router.push(`/pokemon/${item.name}`)}
-          />
-        )}
+        renderItem={({ item }) => {
+          const id = item.url.split("/").filter(Boolean).pop();
+
+          return (
+            <PokemonCard
+              name={item.name}
+              id={String(id).padStart(3, "0")}
+              onPress={() => router.push(`/pokemon/${item.name}`)}
+            />
+          );
+        }}
       />
     </View>
   );

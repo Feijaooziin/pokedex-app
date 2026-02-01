@@ -5,7 +5,7 @@ import { typeColors } from "../utils/typeColors";
 
 interface Props {
   name: string;
-  id: string;
+  id?: string;
   onPress: () => void;
 }
 
@@ -21,7 +21,7 @@ export default function PokemonCard({ name, id, onPress }: Props) {
       style={[styles.card, { backgroundColor: typeColors[type] }]}
       onPress={onPress}
     >
-      <Text style={styles.name}>#{id}</Text>
+      <Text style={styles.id}>#{id}</Text>
       <Text style={styles.name}>{name}</Text>
     </TouchableOpacity>
   );
@@ -33,10 +33,18 @@ const styles = StyleSheet.create({
     padding: 14,
     borderRadius: 14,
     marginBottom: 12,
+    marginHorizontal: 4,
   },
   name: {
     color: "#fff",
     fontWeight: "bold",
     textTransform: "capitalize",
+  },
+
+  id: {
+    color: "rgba(255,255,255,0.7)",
+    fontSize: 12,
+    marginBottom: 4,
+    fontWeight: "600",
   },
 });
