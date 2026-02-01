@@ -13,6 +13,7 @@ import { typeColors } from "../../src/utils/typeColors";
 import { api } from "../../src/services/api";
 import { StatBar } from "../../src/components/StatBar";
 import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 
 export default function PokemonDetails() {
   const { name } = useLocalSearchParams<{ name: string }>();
@@ -20,6 +21,10 @@ export default function PokemonDetails() {
   const [weaknesses, setWeaknesses] = useState<string[]>([]);
   const [strengths, setStrengths] = useState<string[]>([]);
   const [isShiny, setIsShiny] = useState(false);
+  const router = useRouter();
+  const currentId = pokemon ? pokemon.id : 1;
+  const prevId = currentId > 1 ? currentId - 1 : null;
+  const nextId = currentId < 151 ? currentId + 1 : null;
 
   useEffect(() => {
     if (!name) return;
@@ -229,6 +234,32 @@ export default function PokemonDetails() {
           </ScrollView>
         </View>
       </ScrollView>
+      {/* ⬅️➡️ NAVEGAÇÃO */}
+      <View style={styles.navButtons}>
+        <TouchableOpacity
+          disabled={!prevId}
+          style={[styles.navButton, !prevId && styles.navButtonDisabled]}
+          onPress={() => {
+            if (prevId) {
+              router.replace(`/pokemon/${prevId}`);
+            }
+          }}
+        >
+          <Text style={styles.navText}>◀ Anterior</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          disabled={!nextId}
+          style={[styles.navButton, !nextId && styles.navButtonDisabled]}
+          onPress={() => {
+            if (nextId) {
+              router.replace(`/pokemon/${nextId}`);
+            }
+          }}
+        >
+          <Text style={styles.navText}>Próximo ▶</Text>
+        </TouchableOpacity>
+      </View>
     </>
   );
 }
@@ -345,5 +376,31 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     letterSpacing: 1,
     textAlign: "center",
+  },
+
+  navButtons: {
+    backgroundColor: "#FF5252",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+  },
+
+  navButton: {
+    backgroundColor: "#D32F2F",
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 20,
+  },
+
+  navButtonDisabled: {
+    opacity: 0.6,
+  },
+
+  navText: {
+    color: "#fff",
+    fontWeight: "600",
+    fontSize: 20,
   },
 });
