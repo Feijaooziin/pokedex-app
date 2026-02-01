@@ -14,6 +14,7 @@ import { api } from "../../src/services/api";
 import { StatBar } from "../../src/components/StatBar";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
+import { Audio } from "expo-av";
 
 export default function PokemonDetails() {
   const { name } = useLocalSearchParams<{ name: string }>();
@@ -25,6 +26,23 @@ export default function PokemonDetails() {
   const currentId = pokemon ? pokemon.id : 1;
   const prevId = currentId > 1 ? currentId - 1 : null;
   const nextId = currentId < 151 ? currentId + 1 : null;
+  const playSwitchSound = async () => {
+    try {
+      const { sound } = await Audio.Sound.createAsync(
+        require("../../assets/switch.mp3"),
+        { volume: 0.6 },
+      );
+
+      await sound.playAsync();
+      sound.setOnPlaybackStatusUpdate((status) => {
+        if (status.isLoaded && status.didJustFinish) {
+          sound.unloadAsync();
+        }
+      });
+    } catch (e) {
+      console.log("Erro ao tocar som", e);
+    }
+  };
 
   useEffect(() => {
     if (!name) return;
@@ -237,10 +255,11 @@ export default function PokemonDetails() {
       {/* ⬅️➡️ NAVEGAÇÃO */}
       <View style={styles.navButtons}>
         <TouchableOpacity
-          disabled={!prevId}
           style={[styles.navButton, !prevId && styles.navButtonDisabled]}
-          onPress={() => {
+          disabled={!prevId}
+          onPress={async () => {
             if (prevId) {
+              await playSwitchSound();
               router.replace(`/pokemon/${prevId}`);
             }
           }}
@@ -249,10 +268,11 @@ export default function PokemonDetails() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          disabled={!nextId}
           style={[styles.navButton, !nextId && styles.navButtonDisabled]}
-          onPress={() => {
+          disabled={!nextId}
+          onPress={async () => {
             if (nextId) {
+              await playSwitchSound();
               router.replace(`/pokemon/${nextId}`);
             }
           }}
@@ -402,5 +422,18 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
     fontSize: 20,
+  },
+
+  navButtonsTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    marginBottom: 8,
+  },
+
+  navTopText: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "700",
   },
 });
