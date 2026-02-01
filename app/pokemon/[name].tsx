@@ -106,7 +106,7 @@ export default function PokemonDetails() {
                   textTransform: "capitalize",
                 }}
               >
-                {pokemon.name}
+                #{pokemon.id} - {pokemon.name}
               </Text>
             </View>
           ),
