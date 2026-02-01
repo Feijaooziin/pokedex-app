@@ -32,6 +32,7 @@ export default function Home() {
       <SearchBar value={search} onChange={setSearch} />
 
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={pokemons}
         numColumns={2}
         keyExtractor={(item) => item.name}
