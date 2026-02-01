@@ -15,6 +15,7 @@ import { StatBar } from "../../src/components/StatBar";
 import { LinearGradient } from "expo-linear-gradient";
 import { useRouter } from "expo-router";
 import { Audio } from "expo-av";
+import { getRegionById } from "../../src/utils/getRegionById";
 
 export default function PokemonDetails() {
   const { name } = useLocalSearchParams<{ name: string }>();
@@ -26,6 +27,8 @@ export default function PokemonDetails() {
   const currentId = pokemon ? pokemon.id : 1;
   const prevId = currentId > 1 ? currentId - 1 : null;
   const nextId = currentId < 493 ? currentId + 1 : null;
+  const region = getRegionById(pokemon ? pokemon.id : 1);
+
   const playSwitchSound = async () => {
     try {
       const { sound } = await Audio.Sound.createAsync(
@@ -109,22 +112,13 @@ export default function PokemonDetails() {
         options={{
           headerTitleAlign: "center",
           headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#E3350D" },
+          headerStyle: { backgroundColor: "#B71C1C" },
           headerTitle: () => (
             <View style={{ alignItems: "center" }}>
-              <Image
-                source={{
-                  uri:
-                    pokemon.sprites.other?.showdown?.front_default ||
-                    pokemon.sprites.front_default,
-                }}
-                style={{ width: 32, height: 32 }}
-                resizeMode="contain"
-              />
               <Text
                 style={{
                   color: "#fff",
-                  fontSize: 14,
+                  fontSize: 24,
                   marginTop: 2,
                   textTransform: "capitalize",
                 }}
@@ -177,6 +171,21 @@ export default function PokemonDetails() {
           <Text style={styles.number}>
             #{String(pokemon.id).padStart(3, "0")}
           </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              marginBottom: 8,
+              gap: 2,
+              alignSelf: "center",
+            }}
+          >
+            <Text style={styles.regionDetail}>Região:</Text>
+            <View style={styles.regionBadge}>
+              <Text style={styles.regionText}>{region}</Text>
+            </View>
+          </View>
 
           {/* TIPOS */}
           <View style={styles.types}>
@@ -422,5 +431,30 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
     fontSize: 20,
+  },
+
+  regionDetail: {
+    fontSize: 14,
+    fontWeight: "600",
+    opacity: 0.7,
+    textAlign: "center",
+  },
+
+  regionBadge: {
+    alignSelf: "center",
+    backgroundColor: "#F5F5F5",
+    paddingHorizontal: 14,
+    paddingVertical: 4,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "#E0E0E0",
+  },
+
+  regionText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#444",
+    letterSpacing: 0.5,
+    textTransform: "uppercase",
   },
 });

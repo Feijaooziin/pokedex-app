@@ -2,6 +2,7 @@ import { TouchableOpacity, Text, StyleSheet, Image, View } from "react-native";
 import { useEffect, useState } from "react";
 import { getPokemonDetails } from "../services/pokemonService";
 import { typeColors } from "../utils/typeColors";
+import { getRegionById } from "../utils/getRegionById";
 
 interface Props {
   name: string;
@@ -12,6 +13,7 @@ interface Props {
 export default function PokemonCard({ name, id, onPress }: Props) {
   const [type, setType] = useState("normal");
   const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${Number(id)}.png`;
+  const region = getRegionById(Number(id));
 
   useEffect(() => {
     getPokemonDetails(name).then((data) => setType(data.types[0].type.name));
@@ -23,6 +25,7 @@ export default function PokemonCard({ name, id, onPress }: Props) {
       onPress={onPress}
       activeOpacity={0.8}
     >
+      <Text style={styles.region}>{region}</Text>
       <Text style={styles.id}>#{id}</Text>
       <Text style={styles.name}>{name}</Text>
 
@@ -72,5 +75,12 @@ const styles = StyleSheet.create({
     bottom: 6,
     right: 6,
     zIndex: 2,
+  },
+
+  region: {
+    color: "#fff",
+    opacity: 0.85,
+    fontSize: 12,
+    marginTop: 4,
   },
 });
