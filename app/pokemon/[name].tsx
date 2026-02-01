@@ -106,7 +106,7 @@ export default function PokemonDetails() {
                   textTransform: "capitalize",
                 }}
               >
-                #{pokemon.id} - {pokemon.name}
+                #{String(pokemon.id).padStart(3, "0")} - {pokemon.name}
               </Text>
             </View>
           ),
