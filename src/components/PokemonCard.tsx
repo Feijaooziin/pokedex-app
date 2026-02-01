@@ -5,10 +5,11 @@ import { typeColors } from "../utils/typeColors";
 
 interface Props {
   name: string;
+  id: string;
   onPress: () => void;
 }
 
-export default function PokemonCard({ name, onPress }: Props) {
+export default function PokemonCard({ name, id, onPress }: Props) {
   const [type, setType] = useState("normal");
 
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function PokemonCard({ name, onPress }: Props) {
       style={[styles.card, { backgroundColor: typeColors[type] }]}
       onPress={onPress}
     >
+      <Text style={styles.name}>#{id}</Text>
       <Text style={styles.name}>{name}</Text>
     </TouchableOpacity>
   );

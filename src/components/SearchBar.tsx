@@ -9,6 +9,7 @@ export function SearchBar({ value, onChange }: Props) {
   return (
     <TextInput
       placeholder="Buscar Pokémon..."
+      placeholderTextColor={"#777"}
       style={styles.input}
       value={value}
       onChangeText={onChange}
@@ -23,5 +24,6 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginBottom: 10,
+    color: "#000",
   },
 });
