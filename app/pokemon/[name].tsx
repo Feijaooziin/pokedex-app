@@ -423,17 +423,4 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     fontSize: 20,
   },
-
-  navButtonsTop: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "80%",
-    marginBottom: 8,
-  },
-
-  navTopText: {
-    color: "#fff",
-    fontSize: 24,
-    fontWeight: "700",
-  },
 });

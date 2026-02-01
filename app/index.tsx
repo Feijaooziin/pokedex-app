@@ -21,9 +21,16 @@ export default function Home() {
     load();
   }, []);
 
-  const filtered = pokemons.filter((p) =>
-    p.name.includes(search.toLowerCase()),
-  );
+  const normalized = search.replace("#", "");
+
+  const filtered = pokemons.filter((p) => {
+    const id = p.url.split("/").filter(Boolean).pop();
+
+    return (
+      p.name.toLowerCase().includes(normalized.toLowerCase()) ||
+      id.includes(normalized)
+    );
+  });
 
   if (loading) return <SkeletonGrid />;
 
@@ -33,7 +40,7 @@ export default function Home() {
 
       <FlatList
         showsVerticalScrollIndicator={false}
-        data={pokemons}
+        data={filtered} // 👈 agora sim
         numColumns={2}
         keyExtractor={(item) => item.name}
         renderItem={({ item }) => {
