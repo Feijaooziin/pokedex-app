@@ -23,6 +23,7 @@ export default function PokemonDetails() {
   const [weaknesses, setWeaknesses] = useState<string[]>([]);
   const [strengths, setStrengths] = useState<string[]>([]);
   const [isShiny, setIsShiny] = useState(false);
+  const [flavorText, setFlavorText] = useState("");
   const router = useRouter();
   const currentId = pokemon ? pokemon.id : 1;
   const prevId = currentId > 1 ? currentId - 1 : null;
@@ -52,6 +53,7 @@ export default function PokemonDetails() {
 
     async function load() {
       const data = await getPokemonDetails(name);
+      const speciesRes = await api.get(`/pokemon-species/${data.id}`);
       setPokemon(data);
 
       // 🔥 calcular fraquezas
@@ -72,6 +74,12 @@ export default function PokemonDetails() {
           strengthsSet.add(t.name),
         );
       }
+
+      const flavor = speciesRes.data.flavor_text_entries.find(
+        (entry: any) => entry.language.name === "en",
+      );
+
+      setFlavorText(flavor?.flavor_text.replace(/\n|\f/g, " ") ?? "");
 
       setWeaknesses(Array.from(weaknessesSet));
       setStrengths(Array.from(strengthsSet));
@@ -201,6 +209,9 @@ export default function PokemonDetails() {
               </View>
             ))}
           </View>
+
+          <Text style={styles.section}>Descrição Oficial:</Text>
+          <Text style={styles.flavor}>{flavorText}</Text>
 
           {/* INFO */}
           <View style={styles.infoRow}>
@@ -456,5 +467,17 @@ const styles = StyleSheet.create({
     color: "#444",
     letterSpacing: 0.5,
     textTransform: "uppercase",
+  },
+
+  flavor: {
+    fontSize: 14,
+    lineHeight: 20,
+    color: "#555",
+    marginTop: 6,
+    marginBottom: 12,
+    fontStyle: "italic",
+    borderBottomWidth: 1,
+    borderBottomColor: "#999",
+    paddingBottom: 10,
   },
 });
