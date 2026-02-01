@@ -2,7 +2,7 @@ import { api } from "./api";
 import { PokemonDetails } from "../types/pokemon";
 
 export async function getPokemons() {
-  const response = await api.get("/pokemon?limit=151");
+  const response = await api.get("/pokemon?limit=493&offset=0");
   return response.data.results;
 }
 

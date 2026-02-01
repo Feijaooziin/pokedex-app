@@ -25,7 +25,7 @@ export default function PokemonDetails() {
   const router = useRouter();
   const currentId = pokemon ? pokemon.id : 1;
   const prevId = currentId > 1 ? currentId - 1 : null;
-  const nextId = currentId < 151 ? currentId + 1 : null;
+  const nextId = currentId < 493 ? currentId + 1 : null;
   const playSwitchSound = async () => {
     try {
       const { sound } = await Audio.Sound.createAsync(

@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, StyleSheet, Image } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, Image, View } from "react-native";
 import { useEffect, useState } from "react";
 import { getPokemonDetails } from "../services/pokemonService";
 import { typeColors } from "../utils/typeColors";
@@ -42,6 +42,15 @@ const styles = StyleSheet.create({
     borderRadius: 14,
     marginBottom: 12,
     marginHorizontal: 4,
+    overflow: "hidden",
+    // iOS
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.25,
+    shadowRadius: 8,
+
+    // Android
+    elevation: 10,
   },
   name: {
     color: "#fff",
