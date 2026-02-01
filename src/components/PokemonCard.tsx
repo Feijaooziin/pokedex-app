@@ -1,4 +1,4 @@
-import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { useEffect, useState } from "react";
 import { getPokemonDetails } from "../services/pokemonService";
 import { typeColors } from "../utils/typeColors";
@@ -11,6 +11,7 @@ interface Props {
 
 export default function PokemonCard({ name, id, onPress }: Props) {
   const [type, setType] = useState("normal");
+  const sprite = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${Number(id)}.png`;
 
   useEffect(() => {
     getPokemonDetails(name).then((data) => setType(data.types[0].type.name));
@@ -20,9 +21,16 @@ export default function PokemonCard({ name, id, onPress }: Props) {
     <TouchableOpacity
       style={[styles.card, { backgroundColor: typeColors[type] }]}
       onPress={onPress}
+      activeOpacity={0.8}
     >
       <Text style={styles.id}>#{id}</Text>
       <Text style={styles.name}>{name}</Text>
+
+      <Image
+        source={{ uri: sprite }}
+        style={styles.sprite}
+        resizeMode="contain"
+      />
     </TouchableOpacity>
   );
 }
@@ -46,5 +54,14 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 4,
     fontWeight: "600",
+  },
+
+  sprite: {
+    width: 48,
+    height: 48,
+    position: "absolute",
+    bottom: 6,
+    right: 6,
+    zIndex: 2,
   },
 });
